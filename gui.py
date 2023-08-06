@@ -76,7 +76,7 @@ def run_button_clicked():
     reset_button.config(state=tk.DISABLED)
 
     global input_string, righthandedge, index, steps, error
-    while not (dfa.isFinal() and index==righthandedge) and not error:
+    while not dfa.isFinal() or index!=righthandedge and not error:
         step_button_clicked()
         root.update_idletasks()
         root.after(100)
@@ -84,6 +84,8 @@ def run_button_clicked():
     step_button.config(state=tk.ACTIVE)
     run_button.config(state=tk.ACTIVE)
     reset_button.config(state=tk.ACTIVE)
+    if dfa.isFinal() and index==righthandedge:
+        step_button.config(state=tk.DISABLED)
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps, error
