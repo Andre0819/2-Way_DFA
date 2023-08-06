@@ -76,13 +76,16 @@ def run_button_clicked():
     reset_button.config(state=tk.DISABLED)
 
     global input_string, righthandedge, index, steps, error
-    while not (dfa.isFinal() and index==righthandedge) and not error:
+    while not dfa.isFinal() or index!=righthandedge and not error:
         step_button_clicked()
         root.update_idletasks()
         root.after(100)
+    
     step_button.config(state=tk.ACTIVE)
     run_button.config(state=tk.ACTIVE)
     reset_button.config(state=tk.ACTIVE)
+    if dfa.isFinal() and index==righthandedge:
+        step_button.config(state=tk.DISABLED)
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps, error
@@ -107,11 +110,16 @@ def step_button_clicked():
         currStateLabel = "halt-reject"
         error = True
         step_button.config(state=tk.DISABLED)
-
-    if currStateLabel[0] == "t" and index==righthandedge:
-        currStateLabel = "halt-accept"
-    elif currStateLabel == "r" and index==righthandedge:
+    ended = dfa.isFinal() and index==righthandedge
+    if ended and currStateLabel != "r":
+         currStateLabel = "halt-accept"
+         step_button.config(state=tk.DISABLED)
+    elif ended and currStateLabel == "r":
         currStateLabel = "halt-reject"
+        step_button.config(state=tk.DISABLED)
+
+               
+
 
     change_label_text(left_value_label, currStateLabel)
     change_label_text(right_value_label, steps)
