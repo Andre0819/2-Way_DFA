@@ -84,9 +84,9 @@ def run_button_clicked():
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps
-
-    if not dfa.isFinal() or index != righthandedge:
+    if dfa.isFinal() and index==righthandedge:
         step_button.config(state=tk.DISABLED)
+
     char = input_string[index]
     print(char, index, righthandedge)
     current_state = dfa.read_char(char)
@@ -106,7 +106,10 @@ def step_button_clicked():
         currStateLabel = "halt-reject"
 
     change_label_text(left_value_label, currStateLabel)
-    change_label_text(right_value_label, steps)    
+    change_label_text(right_value_label, steps)
+    # if not dfa.isFinal() or index != righthandedge:
+
+    
 def reset_button_clicked():
     global input_string, righthandedge, index, steps
     input_str = '<'+input_field.get()+'>'
