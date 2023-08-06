@@ -68,13 +68,15 @@ def remove_color(text_widget):
     text_widget.tag_remove("colored", "1.0","end")
     text_widget.config(state=tk.DISABLED)
 
+error = False
+
 def run_button_clicked():
     step_button.config(state=tk.DISABLED)
     run_button.config(state=tk.DISABLED)
     reset_button.config(state=tk.DISABLED)
 
-    global input_string, righthandedge, index, steps
-    while not (dfa.isFinal() and index==righthandedge):
+    global input_string, righthandedge, index, steps, error
+    while not (dfa.isFinal() and index==righthandedge) and not error:
         step_button_clicked()
         root.update_idletasks()
         root.after(100)
@@ -83,22 +85,28 @@ def run_button_clicked():
     reset_button.config(state=tk.ACTIVE)
 
 def step_button_clicked():
-    global input_string, righthandedge, index, steps
+    global input_string, righthandedge, index, steps, error
     if dfa.isFinal() and index==righthandedge:
         step_button.config(state=tk.DISABLED)
 
     char = input_string[index]
     print(char, index, righthandedge)
-    current_state = dfa.read_char(char)
-    currStateLabel = current_state[0].label
-
-    remove_color(header_value_text)
-    if index < 0:
-        index = len(input_string) + index
-    change_character_color(header_value_text, index, "red")
-    index += moveHead(current_state[1])
-    print(f"Read Character: {char}, Current State: {current_state[0].label}, Direction: {current_state[1]}")
-    steps += 1 
+    # current_state = dfa.read_char(char)
+    try:
+        current_state = dfa.read_char(char)
+        currStateLabel = current_state[0].label
+        remove_color(header_value_text)
+        if index < 0:
+            index = len(input_string) + index
+        change_character_color(header_value_text, index, "red")
+        index += moveHead(current_state[1])
+        print(f"Read Character: {char}, Current State: {current_state[0].label}, Direction: {current_state[1]}")
+        steps += 1 
+    except ValueError:
+        # Handle the ValueError here
+        currStateLabel = "halt-reject"
+        error = True
+        step_button.config(state=tk.DISABLED)
 
     if currStateLabel[0] == "t" and index==righthandedge:
         currStateLabel = "halt-accept"
@@ -111,7 +119,8 @@ def step_button_clicked():
 
     
 def reset_button_clicked():
-    global input_string, righthandedge, index, steps
+    global input_string, righthandedge, index, steps, error
+    error = False
     input_str = '<'+input_field.get()+'>'
     change_text(header_value_text, input_str)
     input_string = header_value_text.get("1.0", tk.END).strip()
@@ -246,7 +255,7 @@ input_string = header_value_text.get("1.0", tk.END).strip()
 righthandedge = len(input_string)-1
 print("Input: ", input_string)
 index = 0
-steps = 1
+steps = 0
 
 # Start the main event loop
 root.mainloop()
