@@ -7,8 +7,6 @@ from funcs import getMachine
 from funcs import moveHead
 # Define initial states and transitions for the machine
 states_list = getMachine("sample.txt")
-# file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-# states_list = getMachine(file_path)
 
 # Create State objects
 states = [State(state) for state in states_list]
