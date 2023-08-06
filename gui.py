@@ -7,6 +7,8 @@ from funcs import getMachine
 from funcs import moveHead
 # Define initial states and transitions for the machine
 states_list = getMachine("sample.txt")
+# file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+# states_list = getMachine(file_path)
 
 # Create State objects
 states = [State(state) for state in states_list]
@@ -74,56 +76,49 @@ def run_button_clicked():
     step_button.config(state=tk.DISABLED)
     run_button.config(state=tk.DISABLED)
     reset_button.config(state=tk.DISABLED)
-
     global input_string, righthandedge, index, steps, error
-    while not (dfa.isFinal() and index==righthandedge) and not error:
+    end = dfa.isFinal() and index==righthandedge
+    while not(end or error):
         step_button_clicked()
         root.update_idletasks()
         root.after(100)
-    
-    step_button.config(state=tk.ACTIVE)
+        end = dfa.isFinal() and index==righthandedge
     run_button.config(state=tk.ACTIVE)
     reset_button.config(state=tk.ACTIVE)
-    if dfa.isFinal() and index==righthandedge:
-        step_button.config(state=tk.DISABLED)
+        
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps, error
     if dfa.isFinal() and index==righthandedge:
         step_button.config(state=tk.DISABLED)
+    status = {'r':"halt-reject"}
 
-    char = input_string[index]
-    print(char, index, righthandedge)
+
+    
     # current_state = dfa.read_char(char)
     try:
+        char = input_string[index]
+        print(char, index, righthandedge)
         current_state = dfa.read_char(char)
         currStateLabel = current_state[0].label
         remove_color(header_value_text)
-        if index < 0:
-            index = len(input_string) + index
         change_character_color(header_value_text, index, "red")
         index += moveHead(current_state[1])
         print(f"Read Character: {char}, Current State: {current_state[0].label}, Direction: {current_state[1]}")
         steps += 1 
-    except ValueError:
+    except ValueError or IndexError:
         # Handle the ValueError here
-        currStateLabel = "halt-reject"
+        currStateLabel = status['r']
         error = True
         step_button.config(state=tk.DISABLED)
-    ended = dfa.isFinal() and index==righthandedge
-    if ended and currStateLabel != "r":
-         currStateLabel = "halt-accept"
-         step_button.config(state=tk.DISABLED)
-    elif ended and currStateLabel == "r":
-        currStateLabel = "halt-reject"
-        step_button.config(state=tk.DISABLED)
+    
+    if dfa.isFinal() and index==righthandedge:
+        currStateLabel = status.get(currStateLabel[0],'halt-accept')
+        
 
-               
-
-
+    step_button.config(state=tk.DISABLED)
     change_label_text(left_value_label, currStateLabel)
     change_label_text(right_value_label, steps)
-    # if not dfa.isFinal() or index != righthandedge:
 
     
 def reset_button_clicked():
