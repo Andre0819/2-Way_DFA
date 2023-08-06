@@ -4,7 +4,7 @@ from tkinter import filedialog
 
 from classes import State, Machine
 from funcs import getMachine
-
+from funcs import moveHead
 # Define initial states and transitions for the machine
 states_list = getMachine("sample.txt")
 
@@ -94,12 +94,7 @@ def step_button_clicked():
         if index < 0:
             index = len(input_string) + index
         change_character_color(header_value_text, index, "red")
-        
-        match current_state[1]:
-            case 'L':
-                index -= 1
-            case 'R':
-                index += 1
+        index += moveHead(current_state[1])
         print(f"Read Character: {char}, Current State: {current_state[0].label}, Direction: {current_state[1]}")
         steps += 1 
 

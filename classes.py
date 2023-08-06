@@ -17,13 +17,15 @@ class Machine:
         """
     def read_char(self, char):
         delta = self.run.get_delta(char)
+        if delta[0] == "error":
+             raise ValueError("Invalid transition passed in State: " + self.run.label)
+
         print(f"Delta: {delta}")
         _, direction, next_state_label = delta
         next_state = next((state for state in self.states if state.label == next_state_label), None)
-        if next_state is not None:
-            self.run = next_state
-        else:
-            raise ValueError("Invalid transition or next state not found.")
+        if next_state is None:
+            raise ValueError("State " + next_state_label + " is unreachable")
+
 
         return (self.run, direction)
     
