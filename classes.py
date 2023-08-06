@@ -25,7 +25,8 @@ class Machine:
         next_state = next((state for state in self.states if state.label == next_state_label), None)
         if next_state is None:
             raise ValueError("State " + next_state_label + " is unreachable")
-
+        else:
+            self.run = next_state
 
         return (self.run, direction)
     
