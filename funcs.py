@@ -13,11 +13,8 @@ def parse(stream):
     defs = [literal_eval(strings) for strings in lines]
     return defs
 def moveHead(dir):
-    if dir == 'L':
-        return -1
-    elif dir == 'R':
-        return 1
-    elif dir == 'S':
-        return 0
-    else:
-        raise ValueError( dir +  " is not a valid direction")
+    moves = {
+        'L': -1, 'R':1, 'S':0
+    }
+    if dir in moves: return moves[dir]
+    raise ValueError(dir + " Is not a direction")
