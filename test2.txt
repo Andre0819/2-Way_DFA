@@ -1,7 +1,8 @@
-; Accepts languages of inputs a,b that ends with 2 a's
+; Accepts languages of inputs a,b that has 3rd letter from RHS as 'a'
 
 ('q0', [('<','R','q0'),('a','R','q0'),('b','R','q0'),('>','L','q1')], False)
-('q1', [('a','L','q2'),('b','R','r')], False)
-('q2', [('a','R','t'),('b','R','r')], False)
+('q1', [('a','L','q2'),('b','L','q2')], False)
+('q2', [('a','L','q3'),('b','L','q3')], False)
+('q3', [('a','R','t'),('b','R','r')], False)
 ('t', [('<','R','t'),('a','R','t'),('b','R','t'),('>','L','t')], True)
 ('r', [('<','R','r'),('a','R','r'),('b','R','r'),('>','L','r')], True)

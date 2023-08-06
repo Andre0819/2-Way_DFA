@@ -1,4 +1,3 @@
-import time
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import filedialog
@@ -35,8 +34,10 @@ def open_file():
 
             with open(file_path, "r") as file:
                 file_contents = file.read()
+                machineDef_text_widget.config(state=tk.NORMAL)
                 machineDef_text_widget.delete("1.0", tk.END)  # Clear any existing text in the text widget
                 machineDef_text_widget.insert(tk.END, file_contents)
+                machineDef_text_widget.config(state=tk.DISABLED)
 
             print("File uploaded and variables updated successfully.")
         except FileNotFoundError:
@@ -121,7 +122,7 @@ def reset_button_clicked():
     input_str = '<'+input_field.get()+'>'
     change_text(header_value_text, input_str)
     input_string = header_value_text.get("1.0", tk.END).strip()
-    righthandedge = len(input_string)-1
+    righthandedge = len(input_str)-1
     print("Input: ", input_string)
     index = 0
     steps = 0
@@ -246,6 +247,7 @@ machineDef_text_widget = scrolledtext.ScrolledText(machineDef_container, wrap=tk
 machineDef_text_widget.pack(fill=tk.BOTH, expand=True, pady=10, padx=5)
 # Display the initial machine definition
 displayFile("sample.txt")
+machineDef_text_widget.config(state=tk.DISABLED)
 
 input_string = header_value_text.get("1.0", tk.END).strip()
 righthandedge = len(input_string)-1
