@@ -5,9 +5,7 @@ from tkinter import filedialog
 from classes import State, Machine
 from funcs import getMachine
 
-
-
-# Define states and transitions for the machine
+# Define initial states and transitions for the machine
 states_list = getMachine("sample.txt")
 
 # Create State objects
@@ -116,7 +114,6 @@ def step_button_clicked():
     else:
         step_button.config(state=tk.DISABLED)
     
-
 def reset_button_clicked():
     global input_string, righthandedge, index, steps
     input_str = '<'+input_field.get()+'>'
