@@ -2,8 +2,8 @@
 ; Each line is a tuple defining a state: label, transitions, final state (boolean)
 ; Final accepting states should be labeled with the first character being 't' (e.g. t, t0, t1).
 ; Final reject state should be labeled with the first character being 'r' (e.g. r).
-; Transitions are defined as a tuple: ('<input_character>', <direction>, '<state>').
-; Directions are {'L', 'S', 'R'}.
+; Transitions are defined as a tuple: ('<input_character>', '<direction>', '<state>').
+; Directions are {'L', 'S', 'R'} for left, still, and right respectively.
 ; First state defined will always be initial state (in this case its 'q0').
 ; Endmarkers are {'<','>'} for the left and right ends.
 
