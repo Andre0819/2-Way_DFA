@@ -54,7 +54,7 @@ class State:
         """
     def get_delta(self,char):
         try:
-            return next(val for val in self.delta if val[0] == char)
+            return next(val for val in self.delta if val[0] == char or val[0] == "")
         except StopIteration:
             # If no valid transition for the character, return a default transition to handle the error.
             return ("error", 0, char)
