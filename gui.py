@@ -84,7 +84,7 @@ def run_button_clicked():
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps
-    if not dfa.isFinal() or index!=righthandedge:
+    if not (dfa.isFinal() and index==righthandedge):
         char = input_string[index]
         print(char, index, righthandedge)
         current_state = dfa.read_char(char)
