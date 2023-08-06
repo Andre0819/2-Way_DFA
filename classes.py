@@ -16,20 +16,19 @@ class Machine:
         returns: a tuple of (new current state, read direction)
         """
     def read_char(self, char):
-        delta = self.run.get_delta(char)
-        if delta[0] == "error":
+        try:
+            delta = self.run.get_delta(char)
+        except StopIteration:
              raise ValueError("Invalid transition passed in State: " + self.run.label)
-
+         
         print(f"Delta: {delta}")
         _, direction, next_state_label = delta
         next_state = next((state for state in self.states if state.label == next_state_label), None)
         if next_state is None:
             raise ValueError("State " + next_state_label + " is unreachable")
-        else:
-            self.run = next_state
-
+        self.run = next_state
         return (self.run, direction)
-    
+
     def isFinal(self):
         return self.run.isFinal         
     
@@ -53,8 +52,6 @@ class State:
         """find a valid transition given character
         """
     def get_delta(self,char):
-        try:
-            return next(val for val in self.delta if val[0] == char)
-        except StopIteration:
-            # If no valid transition for the character, return a default transition to handle the error.
-            return ("error", 0, char)
+
+            delta = next(val for val in self.delta if val[0] == char)
+            return delta

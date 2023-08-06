@@ -7,6 +7,8 @@ from funcs import getMachine
 from funcs import moveHead
 # Define initial states and transitions for the machine
 states_list = getMachine("sample.txt")
+# file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+# states_list = getMachine(file_path)
 
 # Create State objects
 states = [State(state) for state in states_list]
@@ -74,17 +76,18 @@ def run_button_clicked():
     step_button.config(state=tk.DISABLED)
     run_button.config(state=tk.DISABLED)
     reset_button.config(state=tk.DISABLED)
-
     global input_string, righthandedge, index, steps, error
-    while not (dfa.isFinal() and index==righthandedge) and not error:
+    end = dfa.isFinal() and index==righthandedge
+    while not (end) and not error:
         step_button_clicked()
         root.update_idletasks()
         root.after(100)
+        end = dfa.isFinal() and index==righthandedge
     
     step_button.config(state=tk.ACTIVE)
     run_button.config(state=tk.ACTIVE)
     reset_button.config(state=tk.ACTIVE)
-    if dfa.isFinal() and index==righthandedge:
+    if end:
         step_button.config(state=tk.DISABLED)
 
 def step_button_clicked():
@@ -112,18 +115,13 @@ def step_button_clicked():
         step_button.config(state=tk.DISABLED)
     ended = dfa.isFinal() and index==righthandedge
     if ended and currStateLabel != "r":
-         currStateLabel = "halt-accept"
-         step_button.config(state=tk.DISABLED)
+        currStateLabel = "halt-accept"
     elif ended and currStateLabel == "r":
         currStateLabel = "halt-reject"
-        step_button.config(state=tk.DISABLED)
 
-               
-
-
+    step_button.config(state=tk.DISABLED)
     change_label_text(left_value_label, currStateLabel)
     change_label_text(right_value_label, steps)
-    # if not dfa.isFinal() or index != righthandedge:
 
     
 def reset_button_clicked():
