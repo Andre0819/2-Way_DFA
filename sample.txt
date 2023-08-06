@@ -5,8 +5,7 @@
 ; Transitions are defined as a tuple: ('<input_character>', <direction>, '<state>').
 ; Directions are {'L', 'S', 'R'}.
 ; First state defined will always be initial state (in this case its 'q0').
-; If endmarkers will be used, use {'<','>'}.
-; Include endmarkers (if used) in input strings.
+; Endmarkers are {'<','>'} for the left and right ends.
 
 ; This accepts the Language L = { w = {a,b}* | number of a's is a multiple of 3 and number of b's is even}
 

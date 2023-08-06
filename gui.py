@@ -118,7 +118,8 @@ def step_button_clicked():
 
 def reset_button_clicked():
     global input_string, righthandedge, index, steps
-    change_text(header_value_text, input_field.get())
+    input_str = '<'+input_field.get()+'>'
+    change_text(header_value_text, input_str)
     input_string = header_value_text.get("1.0", tk.END).strip()
     righthandedge = len(input_string)-1
     print("Input: ", input_string)
