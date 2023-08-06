@@ -1,10 +1,12 @@
 ; This is a sample file for machine definition.
-; Each line is a python tuple defining a state: label (string), transitions(list), final state (boolean)
+; Each line is a python tuple defining a state: label (string), transitions(tuple list), final state (boolean)
 ; Reject states should be labeled with the first character being 'r' (e.g. r).
-; Transitions are defined as a tuple: ('<input_character>', '<direction>', '<state>'). format each member as a python string 
+; Transitions are defined as a tuple: ('<input_character>', '<direction>', '<state>').
+; Final states, accepting or rejecting, should have a 'True' value.
 ; Directions are {'L', 'S', 'R'} for left, still, and right respectively.
 ; First state defined will always be initial state (in this case its 'q0').
 ; Endmarkers are {'<','>'} for the left and right ends.
+
 ; This accepts the Language L = { w = {a,b}* | number of a's is a multiple of 3 and number of b's is even}
 
 ('q0', [('<','R','q0'),('a','R','q1'),('b','R','q0'),('>','L','p0')], False)
