@@ -84,7 +84,30 @@ def run_button_clicked():
 
 def step_button_clicked():
     global input_string, righthandedge, index, steps
-    if dfa.isFinal() and index==righthandedge:
+    if not dfa.isFinal() or index!=righthandedge:
+        char = input_string[index]
+        print(char, index, righthandedge)
+        current_state = dfa.read_char(char)
+        currStateLabel = current_state[0].label
+
+        remove_color(header_value_text)
+        if index < 0:
+            index = len(input_string) + index
+        change_character_color(header_value_text, index, "red")
+        index += moveHead(current_state[1])
+        print(f"Read Character: {char}, Current State: {current_state[0].label}, Direction: {current_state[1]}")
+        steps += 1 
+
+        if currStateLabel[0] == "t" and index==righthandedge:
+            currStateLabel = "halt-accept"
+        elif currStateLabel == "r" and index==righthandedge:
+            currStateLabel = "halt-reject"
+
+        change_label_text(left_value_label, currStateLabel)
+        change_label_text(right_value_label, steps)
+
+    else:
+
         step_button.config(state=tk.DISABLED)
 
     char = input_string[index]
