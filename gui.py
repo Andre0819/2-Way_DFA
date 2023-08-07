@@ -1,3 +1,10 @@
+"""
+Code by : Karl Aquino, Shawn Aberin
+Acknowledgement to: Zyreel Ilagan who did the paper
+"""
+
+
+
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import filedialog
