@@ -1,4 +1,4 @@
-# STALGCM_2DFA
+# Algorithms and Complexity: 2-Way Deterministic Finite Automata
 
 Run 'gui.py' to start the program.
 
